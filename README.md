@@ -9,7 +9,7 @@ if a request can be served from the cache.
 It is up to the HTTP Cache implementation to store the cached results
 and serve responses from the cache if necessary.
 
-[![Build Status](https://travis-ci.org/aw/CacheRules.svg?branch=master)](https://travis-ci.org/aw/CacheRules) [![Coverage Status](https://coveralls.io/repos/aw/CacheRules/badge.svg)](https://coveralls.io/r/aw/CacheRules)
+[![Build Status](https://travis-ci.org/aw/CacheRules.svg?branch=master)](https://travis-ci.org/aw/CacheRules) [![Coverage Status](https://coveralls.io/repos/aw/CacheRules/badge.svg?branch=master)](https://coveralls.io/r/aw/CacheRules?branch=master)
 
 ## Getting started
 
