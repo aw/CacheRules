@@ -1,6 +1,6 @@
 ## What is CacheRules
 
-_CacheRules_ is a well-behaved HTTP caching library aimed at being RFC 7234 complaint.
+_CacheRules_ is a well-behaved HTTP caching library aimed at being [RFC 7234](https://tools.ietf.org/html/rfc7234) complaint.
 
 This library does **not actually _cache_ anything**, and it is **not a _proxy_**.
 It validates HTTP headers and returns the appropriate response to determine
@@ -119,7 +119,7 @@ These are somewhat based on [CloudFlare's](https://support.cloudflare.com/hc/en-
 
 ## Tests
 
-Tests must cover 100% in order to pass. To run the tests, type:
+To run the tests, type:
 
   `bundle exec rake test`
 
@@ -135,6 +135,13 @@ Tests must cover 100% in order to pass. To run the tests, type:
 C.R.E.A.M. is an influencial lyrical masterpiece from the 90s performed by the [Wu-Tang Clan](https://www.youtube.com/watch?v=PBwAxmrE194)
 
 It's also the premise of this [troll video](http://cacheruleseverythingaround.me/)
+
+## Further reading
+
+Some useful articles explaining HTTP Caching:
+
+  * [Caching is hard, draw me a picture](http://www.bizcoder.com/caching-is-hard-draw-me-a-picture)
+  * [A Beginner's Guide to HTTP Cache Headers](http://www.mobify.com/blog/beginners-guide-to-http-cache-headers/)
 
 ## LICENSE
 
