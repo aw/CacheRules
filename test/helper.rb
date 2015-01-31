@@ -1,3 +1,4 @@
+require 'coveralls'
 require 'fakeweb'
 require 'simplecov'
 
@@ -13,3 +14,5 @@ require 'minitest/unit'
 require 'minitest/reporters'
 
 Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
+
+Coveralls.wear!
