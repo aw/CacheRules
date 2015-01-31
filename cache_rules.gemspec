@@ -6,12 +6,12 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name        = 'cache_rules'
-  s.version     = '0.1.1'
+  s.version     = '0.1.2'
 
   s.date        = Date.today.to_s
 
   s.summary     = "CacheRules validates requests and responses for cached HTTP data based on RFCs 7230-7235"
-  s.description = "#{s.summary}. The goal is to faciliate implementation of well-behaved caching solutions which adhere to RFC standards."
+  s.description = "#{s.summary}. The goal is to facilitate implementation of well-behaved caching solutions which adhere to RFC standards."
 
   s.author      = 'Alexander Williams'
   s.email       = Base64.decode64("YXdpbGxpYW1zQGFsZXh3aWxsaWFtcy5jYQ==\n")
@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'minitest-reporters', '~> 1.0.0'
   s.add_development_dependency 'simplecov'
 
-  license = 'MPL-2.0'
+  s.licenses = ['MPL-2.0']
   s.required_ruby_version = ::Gem::Requirement.new("~> 1.9")
 
   s.post_install_message = "C.R.E.A.M."
