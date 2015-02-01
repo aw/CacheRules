@@ -112,6 +112,8 @@ class TestHelpers < MiniTest::Test
     assert_equal column6, {:body=>"Gateway Timeout", :code=>504, :headers=>{"Cache-Lookup"=>"EXPIRED"}}
     assert_equal column7, {:body=>nil, :code=>nil, :headers=>nil}
     assert_equal column8, {:body=>nil, :code=>nil, :headers=>nil}
+
+    assert_kind_of String, column2[:headers]['Age']
   end
 
   def test_response_revalidate
@@ -156,6 +158,8 @@ class TestHelpers < MiniTest::Test
     assert_includes column4[:headers], 'Age'
 
     assert_equal column5, {:body=>nil, :code=>307, :headers=>{"Cache-Lookup"=>"EXPIRED", "Location"=>"http://test.url"}}
+
+    assert_kind_of String, column0[:headers]['Age']
   end
 
   def test_is_if_modified_error
@@ -301,6 +305,8 @@ class TestHelpers < MiniTest::Test
     good4  = CacheRules.helper_corrected_initial_age(via_good4, Proc.new { 400 }, apparent_age).call
     bad    = CacheRules.helper_corrected_initial_age(via_bad,   Proc.new { 500 }, apparent_age).call
     noage  = CacheRules.helper_corrected_initial_age(via_noage, Proc.new { 42 },  apparent_age).call
+
+    assert_kind_of Integer, good1
 
     assert_equal good1, 100
     assert_equal good2, 200

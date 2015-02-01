@@ -18,7 +18,7 @@ module CacheRules
   def action_add_age(result)
     current_age = helper_current_age Time.now.gmtime.to_i, result[:cached]
 
-    {'Age' => current_age}
+    {'Age' => current_age.to_s}
   end
 
   def action_add_x_cache(result)

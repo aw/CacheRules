@@ -237,7 +237,7 @@ module CacheRules
     date_value            = cached['Date']['timestamp']             # Required
     request_time          = cached['X-Cache-Req-Date']['timestamp'] # Required
     response_time         = cached['X-Cache-Res-Date']['timestamp'] # Required
-    age_value             = cached['Age'].nil? ? 0 : cached['Age']['timestamp']
+    age_value             = cached['Age'].nil? ? 0 : cached['Age']['timestamp'].to_i
 
     apparent_age          = helper_apparent_age           response_time, date_value
     corrected_age_value   = helper_corrected_age_value    response_time, request_time, age_value

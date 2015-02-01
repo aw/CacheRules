@@ -6,7 +6,7 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name        = 'cache_rules'
-  s.version     = '0.1.3'
+  s.version     = '0.1.4'
 
   s.date        = Date.today.to_s
 
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.author      = 'Alexander Williams'
   s.email       = Base64.decode64("YXdpbGxpYW1zQGFsZXh3aWxsaWFtcy5jYQ==\n")
 
-  s.homepage    = 'https://unscramble.co.jp'
+  s.homepage    = 'https://github.com/aw/CacheRules'
 
   s.require_paths = ["lib"]
   s.files       = `git ls-files`.split("\n")
