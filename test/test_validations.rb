@@ -70,6 +70,14 @@ class TestValidations < MiniTest::Test
     }
   end
 
+  def test_to_bit
+    one   = CacheRules.to_bit { true }
+    zero  = CacheRules.to_bit { false }
+
+    assert_equal one,  1
+    assert_equal zero, 0
+  end
+
   def test_cached
     one   = CacheRules.validate_cached? @headers
     zero  = CacheRules.validate_cached? @no_headers

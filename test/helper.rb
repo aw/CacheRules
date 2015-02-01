@@ -2,6 +2,8 @@ require 'coveralls'
 require 'fakeweb'
 require 'simplecov'
 
+Coveralls.wear!
+
 SimpleCov.start do
   add_filter '/test/'
   add_filter '.bundle'
@@ -14,5 +16,3 @@ require 'minitest/unit'
 require 'minitest/reporters'
 
 Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
-
-Coveralls.wear!

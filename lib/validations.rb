@@ -16,8 +16,12 @@ module CacheRules
   # The If-Match and If-Unmodified-Since conditional header fields are not applicable to a cache.
   # source: https://tools.ietf.org/html/rfc7234#section-4.3.2
 
+  def to_bit(&predicate)
+    predicate.call ? 1 : 0
+  end
+
   def validate_cached?(headers)
-    headers[:cached].length > 0 ? 1 : 0
+    to_bit { headers[:cached].length > 0 }
   end
 
   # Precedence: If-None-Match (ETag), then If-Modified-Since (Last-Modified)
@@ -29,9 +33,9 @@ module CacheRules
     # Return when the If-None-Match header exists, ignore If-Modified-Since
     # source: https://tools.ietf.org/html/rfc7232#section-3.3
     etag_match = helper_etag(request, cached)
-    return etag_match ? 1 : 0 unless etag_match.nil?
+    return to_bit { etag_match } unless etag_match.nil?
 
-    helper_last_modified(request, cached) ? 1 : 0
+    to_bit { helper_last_modified(request, cached) }
   end
 
   # Compare headers to see if the cached request is expired (Freshness)
@@ -43,11 +47,11 @@ module CacheRules
 
     response_is_fresh = freshness_lifetime.to_i > current_age
 
-    response_is_fresh ? 0 : 1
+    to_bit { response_is_fresh != true }
   end
 
   def validate_only_if_cached?(headers)
-    headers[:request]['Cache-Control'] && headers[:request]['Cache-Control']['only-if-cached'] ? 1 : 0
+    to_bit { headers[:request]['Cache-Control'] && headers[:request]['Cache-Control']['only-if-cached'] }
   end
 
   # Serving Stale Responses
@@ -61,7 +65,7 @@ module CacheRules
     max_stale = helper_max_stale.call request['Cache-Control'], freshness_lifetime, current_age
     min_fresh = helper_min_fresh.call request['Cache-Control'], freshness_lifetime, current_age
 
-    (max_stale && min_fresh != false) || (max_stale.nil? && min_fresh) ? 1 : 0
+    to_bit { (max_stale && min_fresh != false) || (max_stale.nil? && min_fresh) }
   end
 
   # Response Cache-Control Directives
@@ -71,7 +75,7 @@ module CacheRules
 
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.2.1
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.2.7
-    (( cached = headers[:cached]['Cache-Control'] )) && ( cached['must-revalidate'] || cached['proxy-revalidate'] ) ? 1 : 0
+    to_bit { (( cached = headers[:cached]['Cache-Control'] )) && ( cached['must-revalidate'] || cached['proxy-revalidate'] ) }
   end
 
   # Verify if we're explicitly told not to cache the response
@@ -100,12 +104,12 @@ module CacheRules
   end
 
   def validate_is_error?(headers)
-    headers[:response]['Status'].to_i.between?(500,599) ? 1 : 0
+    to_bit { headers[:response]['Status'].to_i.between?(500,599) }
   end
 
   def validate_validator_match?(headers)
     request, response = headers.values_at :request, :response
-    response['ETag'] && request['If-None-Match'] && request['If-None-Match'].include?(response['ETag']) ? 1 : 0
+    to_bit { response['ETag'] && request['If-None-Match'] && request['If-None-Match'].include?(response['ETag']) }
   end
 
 end
