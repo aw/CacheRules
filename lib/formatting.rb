@@ -104,7 +104,7 @@ module CacheRules
   def httpdate_helper(header)
     # source: https://tools.ietf.org/html/rfc7231#section-7.1.1.1
     DateTime.parse(header).to_time.to_i
-  rescue ArgumentError => e
+  rescue => e
     # If the supplied date is invalid, use a time in the past (5 minutes ago)
     # source: https://tools.ietf.org/html/rfc7234#section-5.3
     Time.now.gmtime.to_i - 300
