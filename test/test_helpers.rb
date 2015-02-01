@@ -172,12 +172,20 @@ class TestHelpers < MiniTest::Test
     assert_nil noop
   end
 
-  def test_headers_304
-    headers = CacheRules.helper_headers_304.call @cached_headers
+  def test_headers_200_304
+    headers = CacheRules.helper_headers_200_304.call(@cached_headers, {'Warning' => ['199 - Hello World']})
 
     assert_kind_of Hash, headers
 
-    assert_equal headers, {"Date"=>"Fri, 02 Jan 2015 11:03:45 GMT", "Cache-Control"=>"public, max-stale=1000, no-cache=\"Cookie\"", "ETag"=>"\"validEtag\""}
+    assert_equal headers, {"Date"=>"Fri, 02 Jan 2015 11:03:45 GMT", "Cache-Control"=>"public, max-stale=1000, no-cache=\"Cookie\"", "Last-Modified"=>"Fri, 02 Jan 2015 11:03:45 GMT", "ETag"=>"\"validEtag\""}
+  end
+
+  def test_remove_warning_1xx
+     one_result = CacheRules.helper_remove_warning_1xx.call 'Warning', ["199 - \"This is a test\"", "299 - Hello World"]
+     nil_result = CacheRules.helper_remove_warning_1xx.call 'Warning', ["199 - \"This is a test\""]
+
+     assert_equal one_result, {"Warning"=>["299 - Hello World"]}
+     assert_nil   nil_result
   end
 
   def test_helper_has_star

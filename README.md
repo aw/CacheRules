@@ -56,7 +56,7 @@ HTTP Caching request.
 | **Is a stale response acceptable?** | - | - | - | - | 1 | 1 | 0 | - | - |
 | |
 | **Actions** | |
-| **Revalidate** | | | | | | | | | 1 | 1 |
+| **Revalidate** | | | | | | | | 1 | 1 |
 | **Add Age header (regeneratte**) | | | 1 | 1 | 1 | 1 | | | |
 | **Add Cache-Lookup header** | MISS | MISS | HIT | HIT | STALE | STALE | EXPIRED | | |
 | **Add Warning header** | | | | | 110 | 110 | | | |
@@ -78,7 +78,7 @@ HTTP Caching request.
 | **Add Cache-Lookup header** | REVALIDATED | REVALIDATED | EXPIRED | STALE | STALE | EXPIRED |
 | **Add Warning header** | | | | 111 | 111 | |
 | **Return Status Code** | 200 | 304 | 504 | 200 | 304 | 307 |
-| **Return Body** | cached | | | stale | stale | |
+| **Return Body** | cached | | | stale | | |
 
 ## RFC compliance
 

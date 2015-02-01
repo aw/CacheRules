@@ -61,11 +61,12 @@ module CacheRules
   end
 
   # Returns the response body, code and headers based on the actions results
-  def helper_response(url, actions, column, cached)
+  def helper_response(url, actions, column, cached, response = {})
     _, age, x_cache, warning, status, body = helper_run_action actions, column, cached
 
-    headers_304   = helper_headers_304.call(cached) if status == 304
-    headers_url   = {'Location' => url}             if status == 307
+    normalized    = normalize.call response
+    headers_304   = helper_headers_200_304.call(cached, normalized) if status == 200 || status == 304
+    headers_url   = {'Location' => url}                             if status == 307
 
     headers       = [age, warning, x_cache, headers_304, headers_url].compact.reduce &:merge
 
@@ -83,11 +84,22 @@ module CacheRules
     end
   end
 
-  # Generate the same headers if they exist for 304 responses
+  # Generate the same headers if they exist for 200/304 responses
   # source: https://tools.ietf.org/html/rfc7232#section-4.1
-  def helper_headers_304
-    Proc.new {|cached|
-      unnormalize_fields.call cached.select {|x| HEADERS_304.include? x }
+  def helper_headers_200_304
+    Proc.new {|cached, response|
+      new_headers = response.select &helper_remove_warning_1xx
+      unnormalize_fields.call cached.merge(new_headers).reject {|key, _|
+        key == 'X-Cache-Req-Date' || key == 'X-Cache-Res-Date' || key == 'Status'
+      }
+    }
+  end
+
+  # delete 1xx Warning headers
+  # source: https://tools.ietf.org/html/rfc7234#section-4.3.4
+  def helper_remove_warning_1xx
+    Proc.new {|key, value|
+      {key => value} unless key == 'Warning' && value.reject! {|x| x =~ /^1\d{2}/ } && value.length == 0
     }
   end
 

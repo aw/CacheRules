@@ -54,8 +54,6 @@ module CacheRules
     Age Content-Length Max-Forwards
   )
 
-  HEADERS_304 = %w(Cache-Control Content-Location Date ETag Expires Vary)
-
   OPTIONS_CACHE = HEADERS_CSV.select {|header| header == 'Cache-Control' }
   OPTIONS_CSV   = HEADERS_CSV.reject {|header| header == 'Cache-Control' }
   OPTIONS_RETRY = %w(Retry-After)
@@ -137,7 +135,7 @@ module CacheRules
     column = RESPONSE_MAP[helper_run_validate.call(RESPONSE_TABLE[:conditions], request_headers, cached_headers, response_headers).join]
 
     # 2. return the response
-    helper_response url, RESPONSE_TABLE[:actions], column, cached_headers
+    helper_response url, RESPONSE_TABLE[:actions], column, cached_headers, response_headers
   rescue => error
     {:code => 504, :body => 'Gateway Timeout', :headers => [], :error => error.message, :debug => error}
   end
