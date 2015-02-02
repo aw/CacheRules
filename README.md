@@ -1,6 +1,6 @@
 ## What is CacheRules
 
-_CacheRules_ is a well-behaved HTTP caching library aimed at being [RFC 7234](https://tools.ietf.org/html/rfc7234) complaint.
+_CacheRules_ is a well-behaved HTTP caching library aimed at being [RFC 7234](https://tools.ietf.org/html/rfc7234) compliant.
 
 This library does **not actually _cache_ anything**, and it is **not a _proxy_**.
 It validates HTTP headers and returns the appropriate response to determine
