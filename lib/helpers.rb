@@ -335,4 +335,27 @@ module CacheRules
     Proc.new { http.request request }
   end
 
+  def helper_make_request_timer
+    Proc.new {|url, request, cached|
+      {
+        :req_date  => Time.now.gmtime.httpdate,
+        :res       => make_request.call(url, request, cached).call,
+        :res_date  => Time.now.gmtime.httpdate
+      }
+    }
+  end
+
+  def helper_response_headers
+    Proc.new {|result|
+      res_headers = normalize.(result[:res].to_hash.map &:flatten)
+
+      res_headers['Date']             = result[:res_date] if res_headers['Date']
+      res_headers['X-Cache-Req-Date'] = result[:req_date]
+      res_headers['X-Cache-Res-Date'] = result[:res_date]
+      res_headers['Status']           = result[:res].code
+
+      res_headers
+    }
+  end
+
 end

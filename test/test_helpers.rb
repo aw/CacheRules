@@ -407,4 +407,26 @@ class TestHelpers < MiniTest::Test
     assert_equal result.arity, 0
   end
 
+  def test_make_request_timer
+    result = CacheRules.helper_make_request_timer
+
+    assert_kind_of Proc, result
+    assert_equal result.arity, 3
+  end
+
+  def test_response_headers
+    http     = Net::HTTPResponse.new(1.1, 200, "OK")
+    http.add_field "Warning", "299 - \"Hello World\""
+
+    response_no_date  = {:req_date=>"Mon, 02 Feb 2015 04:21:37 GMT", :res=>http, :res_date=>"Mon, 02 Feb 2015 04:21:40 GMT"}
+    result_no_date    = CacheRules.helper_response_headers.call response_no_date
+
+    http.add_field "Date", "Fri, 02 Jan 2015 11:03:45 GMT"
+    response_with_date = {:req_date=>"Mon, 02 Feb 2015 04:21:37 GMT", :res=>http, :res_date=>"Mon, 02 Feb 2015 04:21:40 GMT"}
+    result_with_date   = CacheRules.helper_response_headers.call response_with_date
+
+    assert_equal result_no_date,   {"Warning"=>["299 - \"Hello World\""], "X-Cache-Req-Date"=>"Mon, 02 Feb 2015 04:21:37 GMT", "X-Cache-Res-Date"=>"Mon, 02 Feb 2015 04:21:40 GMT", "Status"=>200}
+    assert_equal result_with_date, {"Warning"=>["299 - \"Hello World\""], "Date"=>"Mon, 02 Feb 2015 04:21:40 GMT", "X-Cache-Req-Date"=>"Mon, 02 Feb 2015 04:21:37 GMT", "X-Cache-Res-Date"=>"Mon, 02 Feb 2015 04:21:40 GMT", "Status"=>200}
+  end
+
 end

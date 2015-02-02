@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7 (2014-02-02)
+
+  * Refactor and simplify `revalidate_response()` method
+
 ## 0.1.6 (2014-02-02)
 
   * Don't rescue ArgumentError on httpdate parse errors

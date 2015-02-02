@@ -120,22 +120,15 @@ module CacheRules
   end
 
   # Revalidates a response by fetching headers from the origin server
-  def revalidate_response(url, request_headers, cached_headers)
-    request_date      = Time.now.gmtime.httpdate
-    response          = make_request.call(url, request_headers, cached_headers).call
-    response_date     = Time.now.gmtime.httpdate
-    response_headers  = normalize.(response.to_hash.map &:flatten)
-
-    response_headers['Date'] = response_date if response_headers['Date']
-    response_headers['X-Cache-Req-Date'] = request_date
-    response_headers['X-Cache-Res-Date'] = response_date
-    response_headers['Status'] = response.code
+  def revalidate_response(*args)
+    url, request, cached = *args
+    res_headers = helper_response_headers.(helper_make_request_timer.(args))
 
     # 1. get the column
-    column = RESPONSE_MAP[helper_run_validate.call(RESPONSE_TABLE[:conditions], request_headers, cached_headers, response_headers).join]
+    column = RESPONSE_MAP[helper_run_validate.call(RESPONSE_TABLE[:conditions], request, cached, res_headers).join]
 
     # 2. return the response
-    helper_response url, RESPONSE_TABLE[:actions], column, cached_headers, response_headers
+    helper_response url, RESPONSE_TABLE[:actions], column, cached, res_headers
   rescue => error
     {:code => 504, :body => 'Gateway Timeout', :headers => [], :error => error.message, :debug => error}
   end
