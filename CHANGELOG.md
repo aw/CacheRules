@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8 (2014-02-09)
+
+  * Add tests to ensure URLs with query parameters are maintained
+
 ## 0.1.7 (2014-02-02)
 
   * Refactor and simplify `revalidate_response()` method

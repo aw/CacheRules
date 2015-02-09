@@ -20,15 +20,26 @@ class TestCacheRules < MiniTest::Test
     assert_equal got_money, "Dolla Dolla Bill Y'all"
   end
 
-  def test_validate_column0
+  def test_validate_column0_query_params_fail
     request = {"Host"=>"test.url"}
 
-    result = CacheRules.validate('http://test.url/test1', request)
+    result = CacheRules.validate('http://test.url/test1?test=string', request)
 
     assert_equal result[:code], 307
     assert_nil   result[:body]
     assert_equal result[:headers]['Cache-Lookup'], 'MISS'
-    assert_equal result[:headers]['Location'], "http://test.url/test1"
+    refute_equal result[:headers]['Location'], "http://test.url/test1"
+  end
+
+  def test_validate_column0
+    request = {"Host"=>"test.url"}
+
+    result = CacheRules.validate('http://test.url/test1?test=string', request)
+
+    assert_equal result[:code], 307
+    assert_nil   result[:body]
+    assert_equal result[:headers]['Cache-Lookup'], 'MISS'
+    assert_equal result[:headers]['Location'], "http://test.url/test1?test=string"
   end
 
   def test_validate_column1
@@ -128,8 +139,8 @@ class TestCacheRules < MiniTest::Test
     request = {"Host"=>"test.url", "If-None-Match"=>["*"], "Cache-Control"=>{"max-age"=>{"token"=>"100000000", "quoted_string"=>nil}}}
     cached  = {"Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Cache-Control"=>{"s-maxage"=>{"token"=>"100000000", "quoted_string"=>nil}}, "X-Cache-Req-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}} 
 
-    FakeWeb.register_uri(:head, "http://test.url/test1", :status => ["304", "Not Modified"], :date => "Sat, 03 Jan 2015 07:15:45 GMT", :Warning => "299 - \"Hello World\"")
-    result = CacheRules.revalidate_response('http://test.url/test1', request, cached)
+    FakeWeb.register_uri(:head, "http://test.url/test1?test=string", :status => ["304", "Not Modified"], :date => "Sat, 03 Jan 2015 07:15:45 GMT", :Warning => "299 - \"Hello World\"")
+    result = CacheRules.revalidate_response('http://test.url/test1?test=string', request, cached)
 
     assert_equal result[:code], 200
     assert_equal result[:body], 'cached'

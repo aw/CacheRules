@@ -65,7 +65,7 @@ class TestHelpers < MiniTest::Test
   end
 
   def test_response_request
-    url = 'http://test.url'
+    url = 'http://test.url?test=string'
     act = CacheRules::REQUEST_TABLE[:actions]
 
     column0 = CacheRules.helper_response url, act, 0, @cached_headers
@@ -78,7 +78,7 @@ class TestHelpers < MiniTest::Test
     column7 = CacheRules.helper_response url, act, 7, @cached_headers
     column8 = CacheRules.helper_response url, act, 8, @cached_headers
 
-    assert_equal column0, {:body=>nil, :code=>307, :headers=>{"Cache-Lookup"=>"MISS", "Location"=>"http://test.url"}}
+    assert_equal column0, {:body=>nil, :code=>307, :headers=>{"Cache-Lookup"=>"MISS", "Location"=>"http://test.url?test=string"}}
     assert_equal column1, {:body=>"Gateway Timeout", :code=>504, :headers=>{"Cache-Lookup"=>"MISS"}}
 
     assert_equal column2[:body], 'cached'
