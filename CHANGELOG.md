@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.11 (2015-04-20)
+
+  * Remove Gemfile.lock
+  * Adjust Gemfile dependencies
+  * Run travis-ci tests in container
+
 ## 0.1.10 (2015-04-20)
 
   * Remove gemspec post_install message

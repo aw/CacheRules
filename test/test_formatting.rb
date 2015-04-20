@@ -126,7 +126,7 @@ class TestFormatting < MiniTest::Test
     timestamp1 = CacheRules.httpdate_helper httpdate
     timestamp2 = CacheRules.httpdate_helper rfc850
     timestamp3 = CacheRules.httpdate_helper ansi_c
-    timestamp4 = CacheRules.httpdate_helper 'invalid!(@*&^#%$'
+    timestamp4 = CacheRules.httpdate_helper "2012-13-08T15:43:59" # invalid date
 
     assert_equal timestamp1, result
     assert_equal timestamp2, result
