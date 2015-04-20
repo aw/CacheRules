@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.10 (2015-04-20)
+
+  * Remove gemspec post_install message
+
 ## 0.1.9 (2015-04-08)
 
   * Add regression tests for issue #5

@@ -6,7 +6,7 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name        = 'cache_rules'
-  s.version     = '0.1.9'
+  s.version     = '0.1.10'
 
   s.date        = Date.today.to_s
 
@@ -29,6 +29,4 @@ Gem::Specification.new do |s|
 
   s.licenses = ['MPL-2.0']
   s.required_ruby_version = ::Gem::Requirement.new("~> 1.9")
-
-  s.post_install_message = "C.R.E.A.M."
 end
