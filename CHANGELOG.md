@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.12 (2015-04-28)
+
+  * Allow newer rubies
+
 ## 0.1.11 (2015-04-20)
 
   * Remove Gemfile.lock
