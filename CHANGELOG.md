@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.14 (2015-04-28)
+
+  * Ensure Cache-Control is verified
+
 ## 0.1.13 (2015-04-28)
 
   * Don't cache the Host header

@@ -90,11 +90,13 @@ module CacheRules
 
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.2.2
     # source: https://tools.ietf.org/html/rfc7234#section-3.2
-    return 1 if (( cached = cached_headers['Cache-Control'] )) &&
-      helper_no_cache.call(cached_headers)                               ||
-        (cached['no-cache'] && cached['no-cache']['quoted_string'].nil?) ||
-        (cached['s-maxage'] && cached['s-maxage']['token'].to_s == "0")  ||
-        (cached['max-age'] && cached['max-age']['token'].to_s   == "0")
+    if cached_headers['Cache-Control']
+      return 1 if (( cached = cached_headers['Cache-Control'] )) &&
+        helper_no_cache.call(cached_headers)                               ||
+          (cached['no-cache'] && cached['no-cache']['quoted_string'].nil?) ||
+          (cached['s-maxage'] && cached['s-maxage']['token'].to_s == "0")  ||
+          (cached['max-age'] && cached['max-age']['token'].to_s   == "0")
+    end
 
     # source: https://tools.ietf.org/html/rfc7234#section-5.4
     # Legacy support for HTTP/1.0 Pragma header
