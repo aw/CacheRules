@@ -26,6 +26,22 @@ class TestValidations < MiniTest::Test
         "X-Cache-Res-Date"  => date
       }
     }
+    @headers_stale = {
+      :request => {
+        "If-Modified-Since" => if_modified,
+        "Cache-Control" => cache_control
+      },
+      :cached => {
+        "Date"              => {"httpdate"=>"Tue, 28 Apr 2015 09:26:57 GMT", "timestamp"=>1430213217},
+        "Cache-Control"     => {
+          "public"          => {"token"=>nil, "quoted_string"=>nil},
+          "max-stale"       => {"token"=>"100", "quoted_string"=>nil}
+        },
+        "Last-Modified"     => {"httpdate"=>"Tue, 28 Apr 2015 09:26:57 GMT", "timestamp"=>1430213217},
+        "X-Cache-Req-Date"  => {"httpdate"=>"Tue, 28 Apr 2015 09:26:57 GMT", "timestamp"=>1430213217},
+        "X-Cache-Res-Date"  => {"httpdate"=>"Tue, 28 Apr 2015 09:26:57 GMT", "timestamp"=>1430213217}
+      }
+    }
     @headers_noetag = {
       :request => {
         "If-None-Match" => ["\"myetag\""]
@@ -121,7 +137,7 @@ class TestValidations < MiniTest::Test
   def test_allow_stale
     guard1    = CacheRules.validate_allow_stale? @no_headers
     guard2    = CacheRules.validate_allow_stale? @headers_noetag
-    max_stale = CacheRules.validate_allow_stale? @headers
+    max_stale = CacheRules.validate_allow_stale? @headers_stale
     min_fresh = CacheRules.validate_allow_stale? @cached_rule2
     nothing   = CacheRules.validate_allow_stale? @headers_nothing
 
