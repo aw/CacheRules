@@ -33,7 +33,7 @@ module CacheRules
   HEADERS_NO_CACHE = %w(
     Set-Cookie Cookie
     Accept-Ranges Range If-Range Content-Range
-    Referer From
+    Referer From Host
     Authorization Proxy-Authorization
   )
 

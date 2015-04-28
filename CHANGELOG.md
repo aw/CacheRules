@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.13 (2015-04-28)
+
+  * Don't cache the Host header
+
 ## 0.1.12 (2015-04-28)
 
   * Allow newer rubies
