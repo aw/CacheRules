@@ -35,4 +35,13 @@ class TestRegressions < MiniTest::Test
 
     assert_kind_of TrueClass, no_max_stale
   end
+
+  # https://github.com/aw/CacheRules/issues/8
+  def test_bugfix_8_errors_caused_by_empty_http_headers
+    isnil   = CacheRules.clean.call({'Content-Type'=>nil})
+    isempty = CacheRules.clean.call({'Content-Type'=>''})
+
+    assert_equal isnil,   []
+    assert_equal isempty, []
+  end
 end

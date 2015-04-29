@@ -30,7 +30,7 @@ module CacheRules
   def clean
     ->(headers) {
       Array(headers).reject {|key, value|
-        HEADERS_NO_CACHE.include?(key) || helper_is_if_modified_error?(key, value)
+        HEADERS_NO_CACHE.include?(key) || helper_is_if_modified_error?(key, value) || value.nil? || value.empty?
       }
     }
   end

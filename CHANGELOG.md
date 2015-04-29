@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.16 (2015-04-29)
+
+  * Errors caused by empty HTTP headers. Fixes issue #8
+
 ## 0.1.15 (2015-04-29)
 
   * No max-stale = allow anything. Fixes issue #7
