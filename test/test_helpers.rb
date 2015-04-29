@@ -376,7 +376,7 @@ class TestHelpers < MiniTest::Test
 
     assert_kind_of TrueClass, stale
     assert_kind_of FalseClass, fresh
-    assert_nil noop
+    assert_kind_of TrueClass, noop
     assert_kind_of TrueClass, notoken
   end
 

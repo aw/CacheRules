@@ -303,10 +303,12 @@ module CacheRules
 
   # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.2
   def helper_max_stale
-    Proc.new {|request, freshness_lifetime, current_age|
+    ->(request, freshness_lifetime, current_age) {
       if request && request['max-stale']
         token = request['max-stale']['token']
         token ? (freshness_lifetime.to_i + token.to_i) > current_age : true
+      else
+        true
       end
     }
   end

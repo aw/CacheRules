@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.15 (2015-04-29)
+
+  * No max-stale = allow anything. Fixes issue #7
+
 ## 0.1.14 (2015-04-28)
 
   * Ensure Cache-Control is verified

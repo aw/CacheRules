@@ -26,4 +26,13 @@ class TestRegressions < MiniTest::Test
     assert_kind_of String,  age_string['Age']
     assert_kind_of Integer, age_integer
   end
+
+  # https://github.com/aw/CacheRules/issues/7
+  def test_bugfix_7_invalid_validation_of_max_stale
+    request = {"Host"=>"test.url"}
+
+    no_max_stale = CacheRules.helper_max_stale.call request, 0, 0
+
+    assert_kind_of TrueClass, no_max_stale
+  end
 end

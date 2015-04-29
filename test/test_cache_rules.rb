@@ -75,7 +75,7 @@ class TestCacheRules < MiniTest::Test
   end
 
   def test_validate_column4
-    request = {"Host"=>"test.url", "Cache-Control"=>"max-stale=10000000"}
+    request = {"Host"=>"test.url"}
     cached  = {"Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Req-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "ETag" => "\"validEtag\"", "Cache-Control"=>{"max-age"=>{"token"=>"100", "quoted_string" => nil}}} 
 
     result = CacheRules.validate('http://test.url/test1', request, cached)
@@ -87,7 +87,7 @@ class TestCacheRules < MiniTest::Test
   end
 
   def test_validate_column5
-    request = {"Host"=>"test.url", "Cache-Control"=>"max-stale=10000000", "If-None-Match"=>"*"}
+    request = {"Host"=>"test.url", "If-None-Match"=>"*"}
     cached  = {"Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Req-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "ETag" => "\"validEtag\"", "Cache-Control"=>{"max-age"=>{"token"=>"100", "quoted_string" => nil}}} 
 
     result = CacheRules.validate('http://test.url/test1', request, cached)
