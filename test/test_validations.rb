@@ -65,9 +65,10 @@ class TestValidations < MiniTest::Test
     @headers_nothing = {
       :request => {"If-None-Match" => ["\"myetag\""] },
       :cached => {
-        "Date"              => next_date,
-        "X-Cache-Req-Date"  => next_date,
-        "X-Cache-Res-Date"  => next_date,
+        "Expires"           => next_date,
+        "Date"              => date,
+        "X-Cache-Req-Date"  => date,
+        "X-Cache-Res-Date"  => date,
         "Cache-Control"     => {
           "must-revalidate" => {"token"=>nil, "quoted_string"=>nil}
         }
@@ -121,9 +122,9 @@ class TestValidations < MiniTest::Test
     stale     = CacheRules.validate_expired? @headers
     fresh     = CacheRules.validate_expired? @headers_nothing
 
-    assert_equal guard, 0
-    assert_equal stale, 1
-    assert_equal fresh, 0
+    assert_equal 0, guard
+    assert_equal 1, stale
+    assert_equal 0, fresh
   end
 
   def test_only_if_cached

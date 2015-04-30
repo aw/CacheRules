@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.17 (2015-04-30)
+
+  * Return the proper 'Age' header and ignore the 'public' control directive
+
 ## 0.1.16 (2015-04-29)
 
   * Errors caused by empty HTTP headers. Fixes issue #8

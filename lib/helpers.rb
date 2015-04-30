@@ -68,7 +68,7 @@ module CacheRules
     headers_304   = helper_headers_200_304.call(cached, normalized) if status == 200 || status == 304
     headers_url   = {'Location' => url}                             if status == 307
 
-    headers       = [age, warning, x_cache, headers_304, headers_url].compact.reduce &:merge
+    headers       = [headers_304, age, warning, x_cache, headers_url].compact.reduce &:merge
 
     {:body => body, :code => status, :headers => headers}
   end
@@ -249,7 +249,7 @@ module CacheRules
     date_value            = cached['Date']['timestamp']             # Required
     request_time          = cached['X-Cache-Req-Date']['timestamp'] # Required
     response_time         = cached['X-Cache-Res-Date']['timestamp'] # Required
-    age_value             = cached['Age'].nil? ? 0 : cached['Age']['timestamp'].to_i
+    age_value             = cached['Age'].nil? ? 0 : cached['Age'].to_i
 
     apparent_age          = helper_apparent_age           response_time, date_value
     corrected_age_value   = helper_corrected_age_value    response_time, request_time, age_value
@@ -285,12 +285,12 @@ module CacheRules
     return (cached_headers['Expires']['timestamp'] - cached_headers['Date']['timestamp']) if cached_headers['Expires']
   end
 
-  # Calculate Heuristic Freshness if there's not explicit expiration time
+  # Calculate Heuristic Freshness if there's no explicit expiration time
   # source: https://tools.ietf.org/html/rfc7234#section-4.2.2
   def helper_heuristic(now, cached, current_age)
-    # Use 10% only if the response is public and there's a Last-Modified header
+    # Use 10% only if there's a Last-Modified header
     # source: https://tools.ietf.org/html/rfc7234#section-4.2.2
-    if cached['Cache-Control'] && cached['Cache-Control']['public'] && cached['Last-Modified']
+    if cached['Last-Modified']
       result = (now - cached['Last-Modified']['timestamp']) / 10
 
       # Don't cache heuristic responses more than 24 hours old, and avoid sending a 113 Warning ;)
