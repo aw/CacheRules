@@ -362,7 +362,7 @@ class TestHelpers < MiniTest::Test
     too_old       = CacheRules.helper_heuristic now, @cached_headers, 86401
     noop          = CacheRules.helper_heuristic(now, {}, 42)
 
-    assert_equal last_modified, 16560
+    assert_equal last_modified, 1420378785
     assert_equal not_public,    0
     assert_equal too_old,       0
     assert_equal noop,          0

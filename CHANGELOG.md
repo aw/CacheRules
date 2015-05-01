@@ -1,5 +1,9 @@
 # Changelog
 
+#  0.1.20 (2015-05-01)
+
+  * Recently cached responses are cached correctly. Fixes issue #11
+
 #  0.1.19 (2015-05-01)
 
   * The 'max-stale' header doesn't affect 'max-age' validation

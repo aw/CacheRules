@@ -295,7 +295,7 @@ module CacheRules
 
       # Don't cache heuristic responses more than 24 hours old, and avoid sending a 113 Warning ;)
       # source: https://tools.ietf.org/html/rfc7234#section-4.2.2
-      current_age > 86400 ? 0 : result
+      current_age > 86400 ? 0 : (now + result)
     else
       0
     end
