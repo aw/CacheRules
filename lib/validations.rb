@@ -92,11 +92,11 @@ module CacheRules
     if request_headers['Cache-Control']
       _, current_age = helper_freshness_lifetime.call cached_headers
 
-      # If max-age is 0 or if the current age is above the max-age and max-stale isn't set
+      # If max-age is 0 or if the current age is above the max-age
       # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.1
       return 1 if (( request = request_headers['Cache-Control'] )) &&
         request['no-cache'] ||
-        (!request['max-stale'] && request['max-age'] &&
+        (request['max-age'] &&
           (request['max-age']['token'].to_s == "0" || current_age > request['max-age']['token'].to_i))
     end
 

@@ -1,5 +1,9 @@
 # Changelog
 
+#  0.1.19 (2015-05-01)
+
+  * The 'max-stale' header doesn't affect 'max-age' validation
+
 #  0.1.18 (2015-05-01)
 
   * Ensure the 'Cache-Control: max-age' is validated

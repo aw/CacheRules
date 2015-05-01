@@ -6,7 +6,7 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name        = 'cache_rules'
-  s.version     = '0.1.18'
+  s.version     = '0.1.19'
 
   s.date        = Date.today.to_s
 
