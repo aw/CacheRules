@@ -47,7 +47,11 @@ module CacheRules
 
     response_is_fresh = freshness_lifetime.to_i > current_age
 
-    to_bit { response_is_fresh != true }
+    return 1 if headers[:cached]['Cache-Control'] &&
+                  headers[:cached]['Cache-Control']['max-age'] &&
+                    current_age > headers[:cached]['Cache-Control']['max-age']['token'].to_i
+
+    to_bit { (response_is_fresh != true) }
   end
 
   def validate_only_if_cached?(headers)
@@ -85,8 +89,16 @@ module CacheRules
 
     # Must revalidate if this request header exists
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.4
-    return 1 if (( request = request_headers['Cache-Control'] )) &&
-      request_headers['Cache-Control']['no-cache']
+    if request_headers['Cache-Control']
+      _, current_age = helper_freshness_lifetime.call cached_headers
+
+      # If max-age is 0 or if the current age is above the max-age and max-stale isn't set
+      # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.1
+      return 1 if (( request = request_headers['Cache-Control'] )) &&
+        request['no-cache'] ||
+        (!request['max-stale'] && request['max-age'] &&
+          (request['max-age']['token'].to_s == "0" || current_age > request['max-age']['token'].to_i))
+    end
 
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.2.2
     # source: https://tools.ietf.org/html/rfc7234#section-3.2

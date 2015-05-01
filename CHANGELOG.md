@@ -1,5 +1,11 @@
 # Changelog
 
+#  0.1.18 (2015-05-01)
+
+  * Ensure the 'Cache-Control: max-age' is validated
+  * Add regression tests
+  * Update documentation
+
 ## 0.1.17 (2015-04-30)
 
   * Return the proper 'Age' header and ignore the 'public' control directive

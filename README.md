@@ -49,7 +49,7 @@ HTTP Caching request.
 | :------------------------| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Are the headers cached?** | 0 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | **Must revalidate?** | - | - | - | - | 0 | 0 | 0 | 1 | - |
-| **No-cache or max-age 0?** | - | - | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
+| **No-cache or max-age reached?** | - | - | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
 | **Do Etags/If-None-Match match?** | - | - | 0 | 1 | 0 | 1 | - | - | - |
 | **Is the cached data expired?** | - | - | 0 | 0 | 1 | 1 | 1 | 1 | - |
 | **Is there an if-only-cached header?** | 0 | 1 | - | - | - | - | - | - | - |
@@ -125,6 +125,7 @@ To run the tests, type:
 
 ## TODO
 
+  * Validation of `s-maxage` [response header](https://tools.ietf.org/html/rfc7234#section-5.2.2.9)
   * Handling `Vary` header and different representations for the same resource
   * Handling `206 (Partial)` and `Range` headers for resuming downloads
   * Handling `Cache-Control: private` headers

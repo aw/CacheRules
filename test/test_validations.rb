@@ -164,7 +164,7 @@ class TestValidations < MiniTest::Test
   def test_no_cache
     headers1 = {
       :request => {'Cache-Control' => {'no-cache'=>{'token'=>nil}}},
-      :cached => {'Cache-Control' => {}}
+      :cached => {}
     }
     headers2 = {
       :request => {},
