@@ -1,5 +1,7 @@
 # Changelog
 
+#  0.2.0 (2015-05-02)
+
 #  0.1.20 (2015-05-01)
 
   * Recently cached responses are cached correctly. Fixes issue #11
