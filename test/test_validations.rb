@@ -222,9 +222,11 @@ class TestValidations < MiniTest::Test
 
   def test_validator_match
     match   = CacheRules.validate_validator_match?({:request => {'If-None-Match'=>["\"myetag\""]}, :response => {'ETag'=>"\"myetag\""}})
+    match1  = CacheRules.validate_validator_match?({:request => {'If-None-Match'=>["*"]}, :response => {'ETag'=>"\"myetag\""}})
     nomatch = CacheRules.validate_validator_match?({:request => {'If-None-Match'=>["\"myetag\""]}, :response => {}})
 
     assert_equal match,   1
+    assert_equal 1, match1
     assert_equal nomatch, 0
   end
 

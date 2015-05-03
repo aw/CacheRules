@@ -1,5 +1,11 @@
 # Changelog
 
+#  0.4.0 (2015-05-03)
+
+  * Modify 'revalidation' table so it doesn't check if the response is expired
+  * Ensure validator matching works with '*'
+  * Fix tests
+
 #  0.3.0 (2015-05-03)
 
   * Make cache rules consistent based RFC spec

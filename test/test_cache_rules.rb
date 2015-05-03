@@ -80,7 +80,7 @@ class TestCacheRules < MiniTest::Test
 
     result = CacheRules.validate('http://test.url/test1', request, cached)
 
-    assert_equal result[:code], 200
+    assert_equal 200, result[:code]
     assert_equal result[:body], 'stale'
     assert_equal result[:headers]['Cache-Lookup'], 'STALE'
     assert_equal result[:headers]['Warning'], "110 - \"Response is Stale\""
@@ -110,29 +110,27 @@ class TestCacheRules < MiniTest::Test
   end
 
   def test_validate_column7
-    request = {"Host"=>"test.url", "Cache-Control"=>"max-stale=0", "If-None-Match"=>"*"}
+    request = {"Host"=>"test.url", "Cache-Control"=>"max-stale=0", "If-None-Match"=>["*"]}
     cached  = {"Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Req-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "ETag" => "\"validEtag\"", "Cache-Control"=>{"max-age"=>{"token"=>"100", "quoted_string" => nil}, "must-revalidate"=>{"token"=>nil, "quoted_string"=>nil}}} 
 
     FakeWeb.register_uri(:head, "http://test.url/test1", :status => ["304", "Not Modified"], :date => "Sat, 03 Jan 2015 07:15:45 GMT")
     result = CacheRules.validate('http://test.url/test1', request, cached)
 
-    assert_equal result[:code], 307
-    assert_nil   result[:body]
-    assert_equal result[:headers]['Cache-Lookup'], 'EXPIRED'
-    assert_equal result[:headers]['Location'], "http://test.url/test1"
+    assert_equal result[:code], 200
+    assert_equal result[:body], "cached"
+    assert_equal result[:headers]['Cache-Lookup'], 'REVALIDATED'
   end
 
   def test_validate_column8
-    request = {"Host"=>"test.url", "Cache-Control"=>"max-stale=0", "If-None-Match"=>"*"}
+    request = {"Host"=>"test.url", "Cache-Control"=>"max-stale=0", "If-None-Match"=>["*"]}
     cached  = {"Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Req-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "ETag" => "\"validEtag\"", "Cache-Control"=>{"max-age"=>{"token"=>"100", "quoted_string" => nil}, "no-cache"=>{"token"=>nil, "quoted_string"=>nil}}}
 
-    FakeWeb.register_uri(:head, "http://test.url/test1", :status => ["304", "Not Modified"], :date => "Sat, 03 Jan 2015 07:15:45 GMT")
-    result = CacheRules.validate('http://test.url/test1', request, cached)
+    FakeWeb.register_uri(:head, "http://test.url/test2", :status => ["304", "Not Modified"], :date => "Sat, 03 Jan 2015 07:15:45 GMT")
+    result = CacheRules.validate('http://test.url/test2', request, cached)
 
-    assert_equal result[:code], 307
-    assert_nil   result[:body]
-    assert_equal result[:headers]['Cache-Lookup'], 'EXPIRED'
-    assert_equal result[:headers]['Location'], "http://test.url/test1"
+    assert_equal 200, result[:code]
+    assert_equal result[:body], "cached"
+    assert_equal result[:headers]['Cache-Lookup'], 'REVALIDATED'
   end
 
   def test_revalidate_response_column0
@@ -144,7 +142,7 @@ class TestCacheRules < MiniTest::Test
 
     assert_equal result[:code], 200
     assert_equal result[:body], 'cached'
-    assert_equal result[:headers]['Cache-Lookup'], 'REVALIDATED'
+    assert_equal 'REVALIDATED', result[:headers]['Cache-Lookup']
     assert_equal result[:headers]['Warning'], "299 - \"Hello World\""
   end
 
@@ -208,19 +206,6 @@ class TestCacheRules < MiniTest::Test
     assert_equal result[:headers]['Warning'], "111 - \"Revalidation Failed\""
     assert_equal result[:headers]['Cache-Lookup'], 'STALE'
     assert_equal result[:headers]['ETag'], "\"validEtag\""
-  end
-
-  def test_revalidate_response_column5
-    request = {"Host"=>"test.url", "If-None-Match"=>["*"], "Cache-Control"=>{"max-stale"=>{"token"=>"100000000", "quoted_string"=>nil}}}
-    cached  = {"Date"=>{"httpdate"=>"Thu, 01 Jan 2015 07:03:45 GMT", "timestamp"=>1420095825}, "Cache-Control"=>{"public"=>{"token"=>nil, "quoted_string"=>nil}}, "X-Cache-Req-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}} 
-
-    FakeWeb.register_uri(:head, "http://test.url/test1", :status => ["200", "OK"])
-    result = CacheRules.revalidate_response('http://test.url/test1', request, cached)
-
-    assert_equal result[:code], 307
-    assert_nil   result[:body]
-    assert_equal result[:headers]['Cache-Lookup'], 'EXPIRED'
-    assert_equal result[:headers]['Location'], "http://test.url/test1"
   end
 
   def test_make_http_request_with_entity_tag

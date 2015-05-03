@@ -66,19 +66,18 @@ HTTP Caching request.
 ### Revalidation Table
 
 | Revalidation Conditions | | | | | | |
-| :------------------------| :---: | :---: | :---: | :---: | :---: | :---: |
-| **Did we get an error or 5xx code?** | 0 | 0 | 1 | 1 | 1 | 0 |
-| **Is the cached data expired?** | 0 | 0 | - | - | - | 1 |
-| **Is there an if-only-cached header?** | - | - | 0 | 1 | 1 | - |
-| **Do Etags/If-None-Match match?** | 0 | 1 | - | 0 | 1 | - |
+| :------------------------| :---: | :---: | :---: | :---: | :---: |
+| **Did we get an error or 5xx code?** | 0 | 0 | 1 | 1 | 1 |
+| **Is there an if-only-cached header?** | - | - | 0 | 1 | 1 |
+| **Do Etags/If-None-Match match?** | 0 | 1 | - | 0 | 1 |
 | |
 | **Actions** | |
-| **Revalidate** | | | | | | |
-| **Add Age header (regeneratte**) | 1 | 1 | | 1 | 1 | |
-| **Add Cache-Lookup header** | REVALIDATED | REVALIDATED | EXPIRED | STALE | STALE | EXPIRED |
-| **Add Warning header** | | | | 111 | 111 | |
-| **Return Status Code** | 200 | 304 | 504 | 200 | 304 | 307 |
-| **Return Body** | cached | | | stale | | |
+| **Revalidate** | | | | | |
+| **Add Age header (regeneratte**) | 1 | 1 | | 1 | 1 |
+| **Add Cache-Lookup header** | REVALIDATED | REVALIDATED | EXPIRED | STALE | STALE |
+| **Add Warning header** | | | | 111 | 111 |
+| **Return Status Code** | 200 | 304 | 504 | 200 | 304 |
+| **Return Body** | cached | | | stale | |
 
 ## RFC compliance
 

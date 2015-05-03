@@ -84,18 +84,17 @@ module CacheRules
   # Decision table for revalidated responses
   RESPONSE_TABLE = {
     :conditions => {
-      'is_error'        => [0, 0, 1, 1, 1, 0],
-      'expired'         => [0, 0, X, X, X, 1],
-      'allow_stale'     => [X, X, 0, 1, 1, X],
-      'validator_match' => [0, 1, X, 0, 1, X]
+      'is_error'        => [0, 0, 1, 1, 1],
+      'allow_stale'     => [X, X, 0, 1, 1],
+      'validator_match' => [0, 1, X, 0, 1]
     },
     :actions => {
       'revalidate'      => [],
       'add_age'         => [1, 1, X, 1, 1],
-      'add_x_cache'     => %w(REVALIDATED REVALIDATED EXPIRED STALE STALE EXPIRED),
+      'add_x_cache'     => %w(REVALIDATED REVALIDATED EXPIRED STALE STALE),
       'add_warning'     => [X, X, X, '111 - "Revalidation Failed"', '111 - "Revalidation Failed"'],
-      'add_status'      => [200, 304, 504, 200, 304, 307],
-      'return_body'     => ['cached', X, 'Gateway Timeout', 'stale', X]
+      'add_status'      => [200, 304, 504, 200, 304],
+      'return_body'     => ['cached', X, 'Gateway Timeout', 'stale']
     }
   }
 

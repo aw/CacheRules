@@ -123,7 +123,7 @@ module CacheRules
 
   def validate_validator_match?(headers)
     request, response = headers.values_at :request, :response
-    to_bit { response['ETag'] && request['If-None-Match'] && request['If-None-Match'].include?(response['ETag']) }
+    to_bit { response['ETag'] && request['If-None-Match'] && (request['If-None-Match'].include?(response['ETag']) || request['If-None-Match'].include?("*")) }
   end
 
 end

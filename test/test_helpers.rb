@@ -125,7 +125,6 @@ class TestHelpers < MiniTest::Test
     column2 = CacheRules.helper_response url, act, 2, @cached_headers
     column3 = CacheRules.helper_response url, act, 3, @cached_headers
     column4 = CacheRules.helper_response url, act, 4, @cached_headers
-    column5 = CacheRules.helper_response url, act, 5, @cached_headers
 
     assert_equal column0[:body], 'cached'
     assert_equal column0[:code], 200
@@ -156,8 +155,6 @@ class TestHelpers < MiniTest::Test
     assert_equal column4[:headers]['Cache-Control'], "public, max-stale=1000, no-cache=\"Cookie\""
     assert_equal column4[:headers]['ETag'], "\"validEtag\""
     assert_includes column4[:headers], 'Age'
-
-    assert_equal column5, {:body=>nil, :code=>307, :headers=>{"Cache-Lookup"=>"EXPIRED", "Location"=>"http://test.url"}}
 
     assert_kind_of String, column0[:headers]['Age']
   end
