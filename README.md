@@ -45,39 +45,11 @@ HTTP Caching request.
 
 ### Request/Cache Table
 
-| HTTP Caching Conditions | | | | | | | | | |
-| :------------------------| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Are the headers cached?** | 0 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| **Must revalidate?** | - | - | - | - | 0 | 0 | 0 | 1 | - |
-| **No-cache or max-age reached?** | - | - | 0 | 0 | 0 | 0 | 0 | 0 | 1 |
-| **Do Etags/If-None-Match match?** | - | - | 0 | 1 | 0 | 1 | - | - | - |
-| **Is the cached data expired?** | - | - | 0 | 0 | 1 | 1 | 1 | 1 | - |
-| **Is there an if-only-cached header?** | 0 | 1 | - | - | - | - | - | - | - |
-| **Is a stale response acceptable?** | - | - | - | - | 1 | 1 | 0 | - | - |
-| |
-| **Actions** | |
-| **Revalidate** | | | | | | | | 1 | 1 |
-| **Add Age header (regeneratte**) | | | 1 | 1 | 1 | 1 | | | |
-| **Add Cache-Lookup header** | MISS | MISS | HIT | HIT | STALE | STALE | EXPIRED | | |
-| **Add Warning header** | | | | | 110 | 110 | | | |
-| **Return Status Code** | 307 | 504 | 200 | 304 | 200 | 304 | 504 | | |
-| **Return Body** | | | cached | | stale | | | | |
+![caching](https://cloud.githubusercontent.com/assets/153401/7445025/1edce9e4-f190-11e4-8f6b-54c74c60789f.png)
 
 ### Revalidation Table
 
-| Revalidation Conditions | | | | | | |
-| :------------------------| :---: | :---: | :---: | :---: | :---: |
-| **Did we get an error or 5xx code?** | 0 | 0 | 1 | 1 | 1 |
-| **Is there an if-only-cached header?** | - | - | 0 | 1 | 1 |
-| **Do Etags/If-None-Match match?** | 0 | 1 | - | 0 | 1 |
-| |
-| **Actions** | |
-| **Revalidate** | | | | | |
-| **Add Age header (regeneratte**) | 1 | 1 | | 1 | 1 |
-| **Add Cache-Lookup header** | REVALIDATED | REVALIDATED | EXPIRED | STALE | STALE |
-| **Add Warning header** | | | | 111 | 111 |
-| **Return Status Code** | 200 | 304 | 504 | 200 | 304 |
-| **Return Body** | cached | | | stale | |
+![revalidation](https://cloud.githubusercontent.com/assets/153401/7445026/2c3ff1c6-f190-11e4-8f66-f8e2336dec6e.png)
 
 ## RFC compliance
 
