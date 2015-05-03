@@ -45,7 +45,7 @@ HTTP Caching request.
 
 ### Request/Cache Table
 
-![caching](https://cloud.githubusercontent.com/assets/153401/7445025/1edce9e4-f190-11e4-8f6b-54c74c60789f.png)
+![cached](https://cloud.githubusercontent.com/assets/153401/7445031/9d64eb2c-f190-11e4-8938-44a443f9bec3.png)
 
 ### Revalidation Table
 
