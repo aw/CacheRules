@@ -49,7 +49,7 @@ HTTP Caching request.
 
 ### Revalidation Table
 
-![revalidation](https://cloud.githubusercontent.com/assets/153401/7445026/2c3ff1c6-f190-11e4-8f66-f8e2336dec6e.png)
+![revalidation](https://cloud.githubusercontent.com/assets/153401/7445040/09c747ba-f191-11e4-8b9c-a8b26709fb99.png)
 
 ## RFC compliance
 
