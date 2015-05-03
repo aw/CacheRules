@@ -168,23 +168,23 @@ class TestValidations < MiniTest::Test
     }
     headers2 = {
       :request => {},
-      :cached => {'Cache-Control' => {'no-cache'=>{'quoted_string'=>"Cookie"}}}
+      :cached => {'Cache-Control' => {'no-cache'=>{'quoted_string'=>"Cookie"}}, "Date" => {"httpdate" => "Thu, 01 Jan 2015 07:03:45 GMT", "timestamp"=>1420095825}, "X-Cache-Req-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}}
     }
     headers2_nil = {
       :request => {},
-      :cached => {'Cache-Control' => {'no-cache'=>{'quoted_string'=>nil}}}
+      :cached => {'Cache-Control' => {'no-cache'=>{'quoted_string'=>nil}}, "Date" => {"httpdate" => "Thu, 01 Jan 2015 07:03:45 GMT", "timestamp"=>1420095825}, "X-Cache-Req-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}}
     }
     headers3 = {
       :request => {},
-      :cached => {'Cache-Control' => {'s-maxage'=>{'token'=>"0"}}}
+      :cached => {'Cache-Control' => {'s-maxage'=>{'token'=>"0"}}, "Date" => {"httpdate" => "Thu, 01 Jan 2015 07:03:45 GMT", "timestamp"=>1420095825}, "X-Cache-Req-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}}
     }
     headers4 = {
       :request => {},
-      :cached => {'Cache-Control' => {'max-age'=>{'token'=>0}}}
+      :cached => {'Cache-Control' => {'max-age'=>{'token'=>0}}, "Date" => {"httpdate" => "Thu, 01 Jan 2015 07:03:45 GMT", "timestamp"=>1420095825}, "X-Cache-Req-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}}
     }
     headers5 = {
       :request => {'Pragma' => {'no-cache'=>{'token'=>nil}}},
-      :cached => {'Cache-Control' => {}}
+      :cached => {'Cache-Control' => {}, "Date" => {"httpdate" => "Thu, 01 Jan 2015 07:03:45 GMT", "timestamp"=>1420095825}, "X-Cache-Req-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}}
     }
 
     guard     = CacheRules.validate_no_cache? @no_headers

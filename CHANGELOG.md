@@ -1,6 +1,13 @@
 # Changelog
 
+#  0.3.0 (2015-05-03)
+
+  * Make cache rules consistent based RFC spec
+  * Add required 'cached' headers to tests
+
 #  0.2.0 (2015-05-02)
+
+  * Version bump
 
 #  0.1.20 (2015-05-01)
 

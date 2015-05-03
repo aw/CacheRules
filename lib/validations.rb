@@ -51,6 +51,7 @@ module CacheRules
                   headers[:cached]['Cache-Control']['max-age'] &&
                     current_age > headers[:cached]['Cache-Control']['max-age']['token'].to_i
 
+
     to_bit { (response_is_fresh != true) }
   end
 
@@ -82,23 +83,22 @@ module CacheRules
     to_bit { (( cached = headers[:cached]['Cache-Control'] )) && ( cached['must-revalidate'] || cached['proxy-revalidate'] ) }
   end
 
-  # Verify if we're explicitly told not to cache the response
+  # Verify if we're explicitly told not to serve a response without revalidation
   def validate_no_cache?(headers)
     request_headers, cached_headers = headers.values_at :request, :cached
     return 1 if cached_headers.length == 0
 
     # Must revalidate if this request header exists
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.4
-    if request_headers['Cache-Control']
-      _, current_age = helper_freshness_lifetime.call cached_headers
+    return 1 if (request_headers['Cache-Control'] && request_headers['Cache-Control']['no-cache'])
 
-      # If max-age is 0 or if the current age is above the max-age
-      # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.1
-      return 1 if (( request = request_headers['Cache-Control'] )) &&
-        request['no-cache'] ||
-        (request['max-age'] &&
-          (request['max-age']['token'].to_s == "0" || current_age > request['max-age']['token'].to_i))
-    end
+    _, current_age = helper_freshness_lifetime.call cached_headers
+
+    # If max-age is 0 or if the current age is above the max-age
+    # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.1
+    return 1 if request_headers['Cache-Control'] &&
+                  request_headers['Cache-Control']['max-age'] &&
+                    (request_headers['Cache-Control']['max-age']['token'].to_s == "0" || current_age > request_headers['Cache-Control']['max-age']['token'].to_i)
 
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.2.2
     # source: https://tools.ietf.org/html/rfc7234#section-3.2
