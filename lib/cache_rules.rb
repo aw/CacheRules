@@ -121,10 +121,16 @@ module CacheRules
   # Revalidates a response by fetching headers from the origin server
   def revalidate_response(*args)
     url, request, cached = *args
-    res_headers = helper_response_headers.(helper_make_request_timer.(args))
+    has_preconditions    = helper_has_preconditions.(request, cached)
 
     # 1. get the column
-    column = RESPONSE_MAP[helper_run_validate.call(RESPONSE_TABLE[:conditions], request, cached, res_headers).join]
+    column = if has_preconditions
+      res_headers = helper_response_headers.(helper_make_request_timer.(args))
+      RESPONSE_MAP[helper_run_validate.call(RESPONSE_TABLE[:conditions], request, cached, res_headers).join]
+    else
+      res_headers = {}
+      2 # return column 2 (504 EXPIRED)
+    end
 
     # 2. return the response
     helper_response url, RESPONSE_TABLE[:actions], column, cached, res_headers

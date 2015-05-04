@@ -174,7 +174,7 @@ class TestCacheRules < MiniTest::Test
   end
 
   def test_revalidate_response_column2_error
-    result = CacheRules.revalidate_response('ftp://test.url/test1', {}, {})
+    result = CacheRules.revalidate_response('ftp://test.url/test1', {}, {'Last-Modified'=>'Sat, 03 Jan 2015 07:03:45 GMT'})
 
     assert_equal result[:code], 504
     assert_equal result[:body], 'Gateway Timeout'

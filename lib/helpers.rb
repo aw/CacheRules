@@ -360,4 +360,11 @@ module CacheRules
     }
   end
 
+  # The validators are required for revalidation
+  # source: https://tools.ietf.org/html/rfc7232#section-2
+  def helper_has_preconditions
+    Proc.new {|request, cached|
+      request['If-None-Match'] || cached['ETag'] || cached['Last-Modified']
+    }
+  end
 end

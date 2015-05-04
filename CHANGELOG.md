@@ -1,5 +1,12 @@
 # Changelog
 
+##  0.5.0 (2015-05-04)
+
+  * Add a check which verifies if a precondition exists before revalidating
+  * Fixes issue #13
+  * Add regression tests
+  * Adjust one broken test
+
 ##  0.4.1 (2015-05-04)
 
   * Update README.md

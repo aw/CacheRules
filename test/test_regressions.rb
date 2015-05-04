@@ -66,4 +66,23 @@ class TestRegressions < MiniTest::Test
     assert_equal 1, current
     assert_equal 1, cached_max_age
   end
+
+  # https://github.com/aw/CacheRules/issues/13
+  def test_bugfix_13_revalidate_without_preconditions
+    if_none_match = CacheRules.helper_has_preconditions.({'If-None-Match'=>'*'},{})
+    etag          = CacheRules.helper_has_preconditions.({}, {'ETag'=>["abcdefg"]})
+    last_modified = CacheRules.helper_has_preconditions.({}, {'Last-Modified'=>{"httpdate"=>"Fri, 02 Jan 2015 11:03:45 GMT", "timestamp"=>1420196625}})
+    empty         = CacheRules.helper_has_preconditions.({}, {})
+    no_precond    = CacheRules.revalidate_response('ftp://test.url/test1', {}, {})
+
+    assert_equal "*", if_none_match
+    assert_equal ["abcdefg"], etag
+    assert_equal({"httpdate"=>"Fri, 02 Jan 2015 11:03:45 GMT", "timestamp"=>1420196625}, last_modified)
+    assert_nil empty
+
+    assert_equal no_precond[:code], 504
+    assert_equal no_precond[:body], 'Gateway Timeout'
+    assert_nil   no_precond[:error]
+  end
+
 end
