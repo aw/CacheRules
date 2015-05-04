@@ -1,29 +1,33 @@
 # Changelog
 
-#  0.4.0 (2015-05-03)
+##  0.4.1 (2015-05-04)
+
+  * Update README.md
+
+##  0.4.0 (2015-05-03)
 
   * Modify 'revalidation' table so it doesn't check if the response is expired
   * Ensure validator matching works with '*'
   * Fix tests
 
-#  0.3.0 (2015-05-03)
+##  0.3.0 (2015-05-03)
 
   * Make cache rules consistent based RFC spec
   * Add required 'cached' headers to tests
 
-#  0.2.0 (2015-05-02)
+##  0.2.0 (2015-05-02)
 
   * Version bump
 
-#  0.1.20 (2015-05-01)
+##  0.1.20 (2015-05-01)
 
   * Recently cached responses are cached correctly. Fixes issue #11
 
-#  0.1.19 (2015-05-01)
+##  0.1.19 (2015-05-01)
 
   * The 'max-stale' header doesn't affect 'max-age' validation
 
-#  0.1.18 (2015-05-01)
+##  0.1.18 (2015-05-01)
 
   * Ensure the 'Cache-Control: max-age' is validated
   * Add regression tests
