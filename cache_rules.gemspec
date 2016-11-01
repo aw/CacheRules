@@ -25,8 +25,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fakeweb",            '~> 1.3'
   s.add_development_dependency 'minitest',           '~> 5.5.0'
   s.add_development_dependency 'minitest-reporters', '~> 1.0.0'
-  s.add_development_dependency 'multi_json',         '~> 1.11.0'
-  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'simplecov',          '~> 0.9.0'
 
   s.licenses = ['MPL-2.0']
   s.required_ruby_version = ::Gem::Requirement.new(">= 1.9")
