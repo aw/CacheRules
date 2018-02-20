@@ -106,7 +106,7 @@ To run the tests, type:
 
 C.R.E.A.M. is an influencial lyrical masterpiece from the 90s performed by the [Wu-Tang Clan](https://www.youtube.com/watch?v=PBwAxmrE194)
 
-It's also the premise of this [troll video](http://cacheruleseverythingaround.me/)
+It's also the premise of this [troll video](https://player.vimeo.com/video/14782834?loop=1;&autoplay=1;)
 
 ## Further reading
 
@@ -121,4 +121,4 @@ This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at [http://mozilla.org/MPL/2.0/](http://mozilla.org/MPL/2.0/).
 
-Copyright (c) 2014-2016 Alexander Williams, Unscramble
+Copyright (c) 2014-2018 Alexander Williams, Unscramble
