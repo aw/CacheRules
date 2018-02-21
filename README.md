@@ -46,11 +46,18 @@ request = {"Version"=>"HTTP/1.1", "If-None-Match"=>"*"}
 cached  = { "Date" => {"timestamp"=>1519190160}, "X-Cache-Req-Date"  => {"timestamp"=>1519190160}, "X-Cache-Res-Date"  => {"timestamp"=>1519190160} }
 
 # test with cached response (status code 304 because If-None-Match supplied)
+CacheRules.validate url, request, cached
+
 => {:body=>nil, :code=>304, :headers=>{"Date"=>"Wed, 21 Feb 2018 05:15:01 GMT", "Age"=>"241", "Warning"=>"110 - \"Response is Stale\"", "Cache-Lookup"=>"STALE"}}
 ```
 
 The `request` headers must be a Ruby Hash or Array of 2-element Arrays.
-The `cached` headers must already have been normalized by this caching library, i.e: they **must** include the `Date['timestamp'], X-Cache-Req-Date['timestamp'], X-Cache-Res-Date['timestamp']` array keys.
+
+The `cached` headers must already have been normalized by this caching library, i.e: they **must** include array keys:
+
+* `Date['timestamp']`
+* `X-Cache-Req-Date['timestamp']`
+* `X-Cache-Res-Date['timestamp']`
 
 See `test/` directory for more examples.
 
