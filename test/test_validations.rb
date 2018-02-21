@@ -32,14 +32,14 @@ class TestValidations < MiniTest::Test
         "Cache-Control" => cache_control
       },
       :cached => {
-        "Date"              => {"httpdate"=>"Tue, 1 Nov 2016 08:00:27 GMT", "timestamp"=>1477987227},
+        "Date"              => {"httpdate"=>"Wed, 21 Feb 2018 04:13:57 GMT", "timestamp"=>1519186437},
         "Cache-Control"     => {
           "public"          => {"token"=>nil, "quoted_string"=>nil},
           "max-stale"       => {"token"=>"100", "quoted_string"=>nil}
         },
-        "Last-Modified"     => {"httpdate"=>"Tue, 1 Nov 2016 08:00:27 GMT", "timestamp"=>1477987227},
-        "X-Cache-Req-Date"  => {"httpdate"=>"Tue, 1 Nov 2016 08:00:27 GMT", "timestamp"=>1477987227},
-        "X-Cache-Res-Date"  => {"httpdate"=>"Tue, 1 Nov 2016 08:00:27 GMT", "timestamp"=>1477987227}
+        "Last-Modified"     => {"httpdate"=>"Wed, 21 Feb 2018 04:13:57 GMT", "timestamp"=>1519186437},
+        "X-Cache-Req-Date"  => {"httpdate"=>"Wed, 21 Feb 2018 04:13:57 GMT", "timestamp"=>1519186437},
+        "X-Cache-Res-Date"  => {"httpdate"=>"Wed, 21 Feb 2018 04:13:57 GMT", "timestamp"=>1519186437}
       }
     }
     @headers_noetag = {
