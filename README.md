@@ -26,26 +26,26 @@ There is only 1 _public API call_ when using this library: `validate()`.
 ```ruby
 require 'cache_rules'
 
+# test without cached response
 url     = 'https://status.rubygems.org'
 request = {'Version' => 'HTTP/1.1'}
 cached  = {}
 
-# test without cached response
 CacheRules.validate url, request, cached
 
 => {:body=>nil, :code=>307, :headers=>{"Cache-Lookup"=>"MISS", "Location"=>"https://status.rubygems.org"}}
 
+# test with cached response (status code 200 because no ETag or If-None-Match supplied)
 cached  = { "Date" => {"timestamp"=>1420095825}, "X-Cache-Req-Date"  => {"timestamp"=>1420268625}, "X-Cache-Res-Date"  => {"timestamp"=>1420268625} }
 
-# test with cached response (status code 200 because no ETag or If-None-Match supplied)
 CacheRules.validate url, request, cached
 
 => {:body=>"stale", :code=>200, :headers=>{"Date"=>"Wed, 21 Feb 2018 05:09:27 GMT", "Age"=>"99094242", "Warning"=>"110 - \"Response is Stale\"", "Cache-Lookup"=>"STALE"}}
 
+# test with cached response (status code 304 because If-None-Match supplied)
 request = {"Version"=>"HTTP/1.1", "If-None-Match"=>"*"}
 cached  = { "Date" => {"timestamp"=>1519190160}, "X-Cache-Req-Date"  => {"timestamp"=>1519190160}, "X-Cache-Res-Date"  => {"timestamp"=>1519190160} }
 
-# test with cached response (status code 304 because If-None-Match supplied)
 CacheRules.validate url, request, cached
 
 => {:body=>nil, :code=>304, :headers=>{"Date"=>"Wed, 21 Feb 2018 05:15:01 GMT", "Age"=>"241", "Warning"=>"110 - \"Response is Stale\"", "Cache-Lookup"=>"STALE"}}
