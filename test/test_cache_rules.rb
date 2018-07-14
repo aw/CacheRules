@@ -182,7 +182,7 @@ class TestCacheRules < MiniTest::Test
   end
 
   def test_revalidate_response_column3
-    request = {"Host"=>"test.url", "If-None-Match"=>["*"], "Cache-Control"=>{"max-stale"=>{"token"=>"100000000", "quoted_string"=>nil}}}
+    request = {"Host"=>"test.url", "If-None-Match"=>["*"], "Cache-Control"=>{"max-stale"=>{"token"=>"1000000000", "quoted_string"=>nil}}}
     cached  = {"Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Req-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "X-Cache-Res-Date"=>{"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "Last-Modified" => {"httpdate"=>"Sat, 03 Jan 2015 07:03:45 GMT", "timestamp"=>1420268625}, "ETag" => "\"validEtag\""} 
 
     FakeWeb.register_uri(:head, "http://test.url/test1", :status => ["504", "Gateway Timeout"], :date => "Sat, 03 Jan 2015 07:15:45 GMT")
