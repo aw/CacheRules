@@ -318,7 +318,7 @@ module CacheRules
     Proc.new {|request, freshness_lifetime, current_age|
       if request && request['min-fresh']
         token = request['min-fresh']['token']
-        freshness_lifetime.to_i >= (current_age + token.to_i)
+        freshness_lifetime.to_i >= (current_age - token.to_i)
       end
     }
   end
