@@ -1,10 +1,5 @@
 # Changelog
 
-##  0.6.0 (2018-07-14)
-
-  * Fixes issue #14. Thanks @SleeplessByte
-  * Ensure min-fresh cache-control header is used correctly for stale responses
-
 ##  0.5.0 (2015-05-04)
 
   * Add a check which verifies if a precondition exists before revalidating

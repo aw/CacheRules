@@ -378,7 +378,7 @@ class TestHelpers < MiniTest::Test
   end
 
   def test_min_fresh
-    min     = CacheRules.helper_min_fresh.call({'min-fresh'=>{'token'=>1000}}, 0, 2000)
+    min     = CacheRules.helper_min_fresh.call({'min-fresh'=>{'token'=>1000}}, 0, 0)
     fresh   = CacheRules.helper_min_fresh.call({'min-fresh'=>{'token'=>"1000"}}, 2000, 0)
     noop    = CacheRules.helper_min_fresh.call @request_headers_nothing, 0, 0
 
