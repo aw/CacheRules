@@ -32,14 +32,14 @@ class TestValidations < MiniTest::Test
         "Cache-Control" => cache_control
       },
       :cached => {
-        "Date"              => {"httpdate"=>"Wed, 21 Feb 2018 04:13:57 GMT", "timestamp"=>1519186437},
+        "Date"              => {"httpdate"=>"Sat, 14 Jul 2018 11:54:26 GMT", "timestamp"=>1531569266},
         "Cache-Control"     => {
           "public"          => {"token"=>nil, "quoted_string"=>nil},
           "max-stale"       => {"token"=>"100", "quoted_string"=>nil}
         },
-        "Last-Modified"     => {"httpdate"=>"Wed, 21 Feb 2018 04:13:57 GMT", "timestamp"=>1519186437},
-        "X-Cache-Req-Date"  => {"httpdate"=>"Wed, 21 Feb 2018 04:13:57 GMT", "timestamp"=>1519186437},
-        "X-Cache-Res-Date"  => {"httpdate"=>"Wed, 21 Feb 2018 04:13:57 GMT", "timestamp"=>1519186437}
+        "Last-Modified"     => {"httpdate"=>"Sat, 14 Jul 2018 11:54:26 GMT", "timestamp"=>1531569266},
+        "X-Cache-Req-Date"  => {"httpdate"=>"Sat, 14 Jul 2018 11:54:26 GMT", "timestamp"=>1531569266},
+        "X-Cache-Res-Date"  => {"httpdate"=>"Sat, 14 Jul 2018 11:54:26 GMT", "timestamp"=>1531569266}
       }
     }
     @headers_noetag = {
@@ -139,13 +139,11 @@ class TestValidations < MiniTest::Test
     guard1    = CacheRules.validate_allow_stale? @no_headers
     guard2    = CacheRules.validate_allow_stale? @headers_noetag
     max_stale = CacheRules.validate_allow_stale? @headers_stale
-    min_fresh = CacheRules.validate_allow_stale? @cached_rule2
     nothing   = CacheRules.validate_allow_stale? @headers_nothing
 
     assert_equal guard1,    0
     assert_equal guard2,    0
     assert_equal max_stale, 1
-    assert_equal min_fresh, 1
     assert_equal nothing,   0
   end
 
@@ -195,6 +193,7 @@ class TestValidations < MiniTest::Test
     maxage    = CacheRules.validate_no_cache? headers4
     pragma    = CacheRules.validate_no_cache? headers5
     nothing   = CacheRules.validate_no_cache? @headers
+    min_fresh = CacheRules.validate_allow_stale? @cached_rule2
 
     assert_equal guard,     1
     assert_equal no_cache1, 1
@@ -204,6 +203,7 @@ class TestValidations < MiniTest::Test
     assert_equal maxage,    1
     assert_equal pragma,    1
     assert_equal nothing,   0
+    assert_equal min_fresh, 1
   end
 
   def test_is_error

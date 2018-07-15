@@ -68,9 +68,8 @@ module CacheRules
     freshness_lifetime, current_age = helper_freshness_lifetime.call cached
 
     max_stale = helper_max_stale.call request['Cache-Control'], freshness_lifetime, current_age
-    min_fresh = helper_min_fresh.call request['Cache-Control'], freshness_lifetime, current_age
 
-    to_bit { (max_stale && min_fresh != false) || (max_stale.nil? && min_fresh) }
+    to_bit { max_stale || max_stale.nil? }
   end
 
   # Response Cache-Control Directives
@@ -92,7 +91,12 @@ module CacheRules
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.4
     return 1 if (request_headers['Cache-Control'] && request_headers['Cache-Control']['no-cache'])
 
-    _, current_age = helper_freshness_lifetime.call cached_headers
+    freshness_lifetime, current_age = helper_freshness_lifetime.call cached_headers
+
+    # Revalidate if the cached response is still fresh and will be fresh for at least min_fresh seconds
+    # see GitHub issue #14
+    # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.3
+    return 1 if helper_min_fresh.call request_headers['Cache-Control'], freshness_lifetime, current_age
 
     # If max-age is 0 or if the current age is above the max-age
     # source: https://tools.ietf.org/html/rfc7234#section-5.2.1.1
